@@ -9,22 +9,32 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
     var name: String = "loser"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i(TAG, "onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
-
+        binding.btnGreet.setOnClickListener {
+            if (binding.tvName.text.toString().isNotEmpty()) {
+                name = binding.tvName.text.toString()
+            }
+            binding.tvGreeting.text = "Hello " + name
+        }
+        binding.tvGreeting.text = "Hello " + name
         setContentView(binding.root)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState?.run {
-            //
-            if (binding.tvGreeting.text.toString().contains(name)) {
+            var isNameEntered = binding.tvName.text.toString().isNotEmpty()
+            var isNameGreeted = binding.tvGreeting.text.toString().contains(name)
+
+            if (isNameEntered && isNameGreeted) {
                 name = binding.tvName.text.toString()
             }
             putString("username", name)
         }
+
         Log.i(TAG, "onSaveInstanceState")
         super.onSaveInstanceState(outState)
     }
@@ -34,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         binding.tvGreeting.text = "Hello " + name
         Log.i(TAG, "onRestoreInstanceState")
         super.onRestoreInstanceState(savedInstanceState)
-
     }
 
     override fun onStart() {
@@ -45,13 +54,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.btnGreet.setOnClickListener {
-            if (binding.tvName.text.toString().isNotEmpty()) {
-                name = binding.tvName.text.toString()
-            }
-            binding.tvGreeting.text = "Hello " + name
-        }
-        binding.tvGreeting.text = "Hello " + name
         Log.i(TAG, "onResume")
     }
 
