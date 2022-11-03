@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.i(TAG, "onStart")
-
     }
 
     override fun onResume() {
